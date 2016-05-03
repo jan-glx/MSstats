@@ -1,0 +1,17 @@
+exportPattern("^[[:alpha:]]+")
+
+import(limma)
+import(lme4)
+import(reshape)
+import(survival)
+import(marray)
+import(preprocessCore)
+import(data.table)
+import(ggplot2)
+import(ggrepel)
+import(gplots)
+import(MSnbase)
+import(minpack.lm)
+
+
+
