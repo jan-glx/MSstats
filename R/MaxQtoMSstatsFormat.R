@@ -33,16 +33,16 @@ MaxQtoMSstatsFormat <- function(evidence,
 	### 1.1 remove contaminant, reverse proteinID 
 	### Contaminant, Reverse column in evidence
 	if(is.element("Contaminant", colnames(infile)) & is.element("+", unique(infile$Contaminant))){
-		infile <- infile[-which(infile$Contaminant %in% "+"), ]
+		infile <- infile[!(infile$Contaminant %in% "+"), ]
 	}
 	
 	if(is.element("Reverse", colnames(infile)) & is.element("+", unique(infile$Reverse))){
-		infile <- infile[-which(infile$Reverse %in% "+"),]
+		infile <- infile[!(infile$Reverse %in% "+"),]
 	}
 
 	### ? Only.identified.by.site column in proteinGroupID? : sometimes, it is not in evidence.txt
 	if(is.element("Only.identified.by.site", colnames(infile))){
-		infile <- infile[-which(infile$Only.identified.by.site %in% "+"), ]
+		infile <- infile[!(infile$Only.identified.by.site %in% "+"), ]
 	}
 	
 	message('+ Contaminant, + Reverse, + Only.identified.by.site, proteins are removed.')
@@ -58,20 +58,20 @@ MaxQtoMSstatsFormat <- function(evidence,
 	
 	### first, remove contaminants
 	if(is.element("Contaminant", colnames(proteinGroups)) & is.element("+",unique(proteinGroups$Contaminant))){
-		proteinGroups <- proteinGroups[-which(proteinGroups$Contaminant %in% "+"), ]
+		proteinGroups <- proteinGroups[!(proteinGroups$Contaminant %in% "+"), ]
 	}
 	
 	if(is.element("Potential.contaminant", colnames(proteinGroups)) & is.element("+",unique(proteinGroups$Potential.contaminant))){
-		proteinGroups <- proteinGroups[-which(proteinGroups$Potential.contaminant %in% "+"), ]
+		proteinGroups <- proteinGroups[!(proteinGroups$Potential.contaminant %in% "+"), ]
 	}
 
 	if(is.element("Reverse", colnames(proteinGroups)) & is.element("+",unique(proteinGroups$Reverse))){
-		proteinGroups <- proteinGroups[-which(proteinGroups$Reverse %in% "+"), ]
+		proteinGroups <- proteinGroups[!(proteinGroups$Reverse %in% "+"), ]
 	}
 
 	### ? Only.identified.by.site column in proteinGroupID? : sometimes, it is not in evidence.txt
 	if(is.element("Only.identified.by.site", colnames(proteinGroups))){
-		proteinGroups <- proteinGroups[-which(proteinGroups$Only.identified.by.site %in% "+"), ]
+		proteinGroups <- proteinGroups[!(proteinGroups$Only.identified.by.site %in% "+"), ]
 	}
 	
 	tempprotein <- proteinGroups
@@ -125,7 +125,7 @@ MaxQtoMSstatsFormat <- function(evidence,
 		remove_m_sequence <- unique(infile[grep("M", infile$Modified.sequence), "Modified.sequence"])
  
  		if(length(remove_m_sequence) > 0){
- 			infile <- infile[-which(infile$Modified.sequence %in% remove_m_sequence), ]
+ 			infile <- infile[!(infile$Modified.sequence %in% remove_m_sequence), ]
  		}
 		
 		message('Peptides including M in the sequence are removed.')
@@ -147,7 +147,7 @@ MaxQtoMSstatsFormat <- function(evidence,
 		
 		## remove the peptides which are used in more than one protein
 		if(length(remove_peptide$Proteins != 1) != 0){
-			infile <- infile[-which(infile$Modified.sequence %in% remove_peptide$Modified.sequence), ]
+			infile <- infile[!(infile$Modified.sequence %in% remove_peptide$Modified.sequence), ]
 		}
 		
 		message('Peptides, that are used in more than one proteins, are removed.')
@@ -243,7 +243,7 @@ MaxQtoMSstatsFormat <- function(evidence,
     
 	  removepro <- names(count[count <= 1])
 	  
-	  infile_l <- infile_l[-which(infile_l$Proteins %in% removepro), ]
+	  infile_l <- infile_l[!(infile_l$Proteins %in% removepro), ]
 	  
 	  message(paste("*** ", length(removepro), ' proteins, which have only peptide and charge in a protein, are removed among ', lengthtotalprotein, ' proteins.', sep=""))
 	  
@@ -322,7 +322,7 @@ MaxQtoMSstatsFormat <- function(evidence,
 	x$Feature <- paste(x$Proteins, x$Modified.sequence, x$Charge, sep="_")
 	remove_feature_name$Feature <- paste(remove_feature_name$Proteins, remove_feature_name$Modified.sequence, remove_feature_name$Charge, sep="_")
 
-	x <- x[-which(x$Feature %in% remove_feature_name$Feature), ]
+	x <- x[!(x$Feature %in% remove_feature_name$Feature), ]
 	x <- x[, -ncol(x)]
 	
 	return(x)
